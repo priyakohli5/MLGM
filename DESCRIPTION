@@ -1,0 +1,18 @@
+Package: MLGM
+Type: Package
+Title: Multivariate Longitudinal Graphical Models 
+Version: 1.0
+Authors@R: c(person("Priya", "Kohli", email = "pkohli@conncoll.edu",
+                  role = c("aut", "cre")),
+                  person("Xinyu", "Du", email = "xdu15@jhu.edu",
+                  role = c("ctb")),
+                  person("Haoyang", "Shen", email = "haoyangshen@brandeis.edu",
+                  role = c("ctb")))
+Maintainer: The package maintainer <pkohli@conncoll.edu>
+Description: Visualizing mean and dependence patterns for multivariate longitudinal data using profile plots and multivariate regressograms. Modeling mean and covariance for multiple variables measured at regular or irregular time points. Performing modified Cholesky block decomposition of the covariance matrix and guaranteed positive definiteness of the estimated covariance.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.0.1), stats
+Imports: Matrix, matrixcalc, gdata, expm
+RoxygenNote: 7.1.1
