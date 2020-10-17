@@ -24,11 +24,11 @@
 #'  \item Dinv.elements are the inverse innovation variance matrices obtained from sample covariance matrix. This is in matrix format where each row represents the elements for each innovariogram plot. These elements are not plotted by default.
 #'  \item logD.elements are the log innovation variance matrices obtained from sample covariance matrix. This is in matrix format where each row represents the elements for each innovariogram plot. These elements are plotted by default.
 #' }
-#' @usage mvr(data, time, j, N, inno=FALSE, inverse=FALSE, loginno=TRUE, plot=TRUE, pch.plot=19, par1.R=2, par2.R=2, par1.D=2, par2.D=2)
+#' @usage mvr(data, time, j, N, inno=FALSE, inverse=FALSE, loginno=TRUE, plot=TRUE, pch.plot=19, par1.r=2, par2.r=2, par1.d=2, par2.d=2)
 #'
 #' @references Kohli, P. Garcia, T. and Pourahmadi, M. 2016 Modeling the Cholesky Factors of Covariance Matrices of Multivariate Longitudinal Data, Journal of Multivariate Analysis, 145, 87-100.
 #'
-#' @references Kohli, P. Du, X. and Shen, H. 2020+ Multivariate Longitudinal Graphical Models (MLGM): An R Package for Visualizing and Modeling Mean \& Dependence Patterns in Multivariate Longitudinal Data, submitted.
+#' @references Kohli, P. Du, X. and Shen, H. 2020+ Multivariate Longitudinal Graphical Models (MLGM): An R Package for Visualizing and Modeling Mean and Dependence Patterns in Multivariate Longitudinal Data, submitted.
 #'
 #' @export
 #'
@@ -38,7 +38,7 @@
 #' time <- c(0, 2, 4, 6, 8, 18, 24, 32, 48, 72)
 #' j <- 4
 #' n <- 44
-#' MVR <- mvr(Tcells,time,j,n,inno=FALSE,inverse=FALSE,loginno=TRUE,plot=TRUE,pch.plot=19,par1.r = 4,par2.r = 4,par1.d=4,par2.d=3)
+#' MVR <- mvr(Tcells,time,j,n,inno=FALSE,inverse=FALSE,loginno=TRUE,plot=TRUE,pch.plot=19,par1.r = 2,par2.r = 2,par1.d=2,par2.d=2)
 
 mvr <- function(data,time,j,N,inno=FALSE,inverse=FALSE,loginno=TRUE,plot=TRUE,pch.plot=19,par1.r=2,par2.r=2,par1.d=2,par2.d=2){
   sigma.sample <- cov(data)

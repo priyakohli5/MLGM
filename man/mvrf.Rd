@@ -65,7 +65,7 @@ j <- 4
 N <- 44
 data(Cov_est)
 sigma.fitted <- Cov_est
-MVRF <- mvrf(Tcells,time,j,N,inno=FALSE,inverse=FALSE,loginno=TRUE,as.matrix(Cov_est),mcol="black",fcol="red",pch.plot=19,par1.r=4,par2.r=4,par1.d=4,par2.d=3,lwd.fit=2,lty.fit=1)
+MVRF <- mvrf(Tcells,time,j,N,inno=FALSE,inverse=FALSE,loginno=TRUE,as.matrix(Cov_est),mcol="black",fcol="red",pch.plot=19,par1.r=1,par2.r=1,par1.d=1,par2.d=1,lwd.fit=2,lty.fit=1)
 }
 \references{
 Kohli, P. Garcia, T. and Pourahmadi, M. 2016 Modeling the Cholesky Factors of Covariance Matrices of Multivariate Longitudinal Data, Journal of Multivariate Analysis, 145, 87-100.
