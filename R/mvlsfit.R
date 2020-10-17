@@ -21,8 +21,9 @@
 #'
 #' @return estimates for mean and covariance parameters in matrix form, estimated mean vector and covariance matrix, and number of iterations. Specifically,
 #' \itemize{
-#'   \item output is the matrix with least square estimates for the mean and covariance parameters and their standard errors.
-#'   \item mean is the estimated mean vector for the multivariate longitudinal data.
+#'   \item output is the matrix with least square estimates for the mean (OLS and GLS) and covariance parameters and their standard errors.
+#'   \item mean is the estimated mean (OLS) vector for the multivariate longitudinal data.
+#'   \item mean.gls is the estimated mean (GLS) vector for the multivariate longitudinal data.
 #'   \item sigma is the estimated covariance matrix for the multivariate longitudinal data.
 #'   \item gamma.mat has the estimated regressogram parameters in a matrix form.
 #'   \item alpha.mat has the estimated log innovariogram oarameters in a matrix format.
@@ -106,7 +107,8 @@
 #' alpha.init <- alpha.init[-1]
 #' results <- mvlsfit(Tcells,time,j,p,r,s,lags,X.mat,design_mat$U,design_mat$V,beta.init,gamma.init,alpha.init,beta=matrix(0,nrow=length(beta.init),ncol=1),tol=0.001,Nmax=500)
 #' par.est <- results$output
-#' mean.est <- results$mean
+#' mean.ols.est <- results$mean
+#' mean.gls.est <- results$mean.gls
 #' cov.est <- results$sigma
 
 mvlsfit <- function(data,time,j,p,r,s,lags,X.mat,U,V,beta.init,gamma.init,alpha.init,beta=matrix(0,nrow=length(beta.init),ncol=1),tol=0.001,Nmax=500){
@@ -143,6 +145,13 @@ mvlsfit <- function(data,time,j,p,r,s,lags,X.mat,U,V,beta.init,gamma.init,alpha.
       term2 <- term2 + t(X.mat) %*% data[i,]
     }
     beta <- solve(term1) %*% term2
+    term1.gls <- 0
+    term2.gls <- 0
+    for (i in 1:Nsub){
+      term1.gls <- term1.gls + t(X.mat) %*% solve(sigma) %*% X.mat
+      term2.gls <- term2.gls + t(X.mat) %*% solve(sigma) %*% data[i,]
+    }
+    beta.gls <- solve(term1.gls) %*% term2.gls
     data.mean <- apply(data,2,mean)
     error.beta <- data.mean-(X.mat%*%beta)
     sigma.est <- sum(error.beta^2)/(nrow(data)-length(beta.init))
@@ -152,7 +161,10 @@ mvlsfit <- function(data,time,j,p,r,s,lags,X.mat,U,V,beta.init,gamma.init,alpha.
     beta.var.mat <- sigma.est * solve(t(X.mat) %*% X.mat)
     beta.var <- diag(beta.var.mat)
     beta.se <- sqrt(round(beta.var,7))
-    gamma.mat <- gamma.mat <- (solve(t(U)%*%U))%*%(t(U)%*% Phi)
+    beta.var.mat.gls <- sigma.est * solve(t(X.mat)%*% solve(sigma) %*% X.mat)
+    beta.var.gls <- diag(beta.var.mat.gls)
+    beta.se.gls <- sqrt(round(beta.var.gls,7))
+    gamma.mat <- (solve(t(U)%*%U))%*%(t(U)%*% Phi)
     gamma <- unmatrix(gamma.mat,byrow=TRUE)
     error.gamma <- Phi-(U%*%gamma.mat)
     sigma.est <- sum(error.gamma^2)/(nrow(data)-length(gamma.init))
@@ -208,11 +220,12 @@ mvlsfit <- function(data,time,j,p,r,s,lags,X.mat,U,V,beta.init,gamma.init,alpha.
     N <- N+1
   }
   mean <- X.mat %*% beta
-  output <- matrix(0,nrow=2,ncol=sum(c(length(beta),length(gamma),length(alpha))))
-  colnames(output) <- c(rep("beta",length(beta)),rep("gamma",length(gamma)),
+  mean.gls <- X.mat %*% beta.gls
+  output <- matrix(0,nrow=2,ncol=sum(c(length(beta),length(beta.gls),length(gamma),length(alpha))))
+  colnames(output) <- c(rep("beta",length(beta)),rep("beta.gls",length(beta.gls)),rep("gamma",length(gamma)),
                         rep("alpha",length(alpha)))
   rownames(output) <- c("estimates","est.se")
-  output["estimates",] <- c(beta,gamma,alpha)
-  output["est.se",] <- c(beta.se, gamma.se[1:length(gamma)], alpha.se[1:length(alpha)])
-  list(output=round(output,digits=4),mean=mean,sigma=sigma,gamma.mat=gamma.mat,alpha.mat=alpha.mat,Nmax=Nmax)
+  output["estimates",] <- c(beta,beta.gls,gamma,alpha)
+  output["est.se",] <- c(beta.se, beta.se.gls, gamma.se[1:length(gamma)], alpha.se[1:length(alpha)])
+  list(output=round(output,digits=4),mean=mean,mean.gls=mean.gls,sigma=sigma,gamma.mat=gamma.mat,alpha.mat=alpha.mat,Nmax=Nmax)
 }
