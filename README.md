@@ -24,7 +24,7 @@ You can install the released version of MLGM from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("MLGM", force=TRUE)
+devtools::install_github("priyakohli5/MLGM", force=TRUE)
 ```
 
 ## Example
