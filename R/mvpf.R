@@ -35,7 +35,7 @@
 #'  mvpf(data.gene,time,mean.gene,title=gene.names[i],xlabel="Hours",ylabel="Expression Response",scol="gray", mcol="black",fcol="red",lwd.mean=2,lwd.fit = 3,lty.fit =2)
 #' }
 
-mvpf <- function(data,time,mean.fitted,title="",xlabel="",ylabel="",scol="gray", mcol="black",fcol="red",lwd.mean=2,lwd.fit=2,lty.fit=2){
+mvpf <- function(data,time,mean.fitted,title="",xlabel="",ylabel="",scol="gray", mcol="black",fcol="red",f2col="blue",lwd.mean=2,lwd.fit=2,lty.fit=2){
   plot(time,data[1,],col="gray",type="l",ylab=ylabel,xlab=xlabel,main=title,ylim=range(data))
   for(i in 2:nrow(data)){
     lines(time,data[i,],col=scol)

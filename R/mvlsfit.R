@@ -1,6 +1,6 @@
 #' Least Squares Estimates for Mean and Covariance in Multivariate Longitudinal Data
 #'
-#' @description mvlsfit returns least squares estimates for the mean and covariance using an iterative process.
+#' @description mvlsfit returns generalized least squares estimates for the mean and covariance using an iterative process.
 #'
 #' @param data a data frame (or matrix) with n rows for subjects and T columns for the repeated measurements.
 #' @param time a vector with T equally or unequally spaced time points.
